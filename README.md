@@ -1,88 +1,191 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19931979&assignment_repo_type=AssignmentRepo)
-# Testing and Debugging MERN Applications
+# MERN Testing & Debugging Assignment
 
-This assignment focuses on implementing comprehensive testing strategies for a MERN stack application, including unit testing, integration testing, and end-to-end testing, along with debugging techniques.
+## Overview
+This project demonstrates comprehensive testing and debugging strategies for a MERN stack application. It includes unit, integration, and end-to-end (E2E) tests, as well as server and client-side debugging techniques.
 
-## Assignment Overview
+---
 
-You will:
-1. Set up testing environments for both client and server
-2. Write unit tests for React components and server functions
-3. Implement integration tests for API endpoints
-4. Create end-to-end tests for critical user flows
-5. Apply debugging techniques for common MERN stack issues
+## Table of Contents
+- [Project Structure](#project-structure)
+- [Setup & Installation](#setup--installation)
+- [Running the App](#running-the-app)
+- [Testing](#testing)
+  - [Unit Tests](#unit-tests)
+  - [Integration Tests](#integration-tests)
+  - [End-to-End (E2E) Tests](#end-to-end-e2e-tests)
+  - [Test Coverage](#test-coverage)
+- [Testing Strategy](#testing-strategy)
+- [Debugging Techniques](#debugging-techniques)
+- [Screenshots of Coverage](#screenshots-of-coverage)
+- [Resources](#resources)
+
+---
 
 ## Project Structure
-
 ```
-mern-testing/
-├── client/                 # React front-end
-│   ├── src/                # React source code
-│   │   ├── components/     # React components
-│   │   ├── tests/          # Client-side tests
-│   │   │   ├── unit/       # Unit tests
-│   │   │   └── integration/ # Integration tests
-│   │   └── App.jsx         # Main application component
-│   └── cypress/            # End-to-end tests
-├── server/                 # Express.js back-end
-│   ├── src/                # Server source code
-│   │   ├── controllers/    # Route controllers
-│   │   ├── models/         # Mongoose models
-│   │   ├── routes/         # API routes
-│   │   └── middleware/     # Custom middleware
-│   └── tests/              # Server-side tests
-│       ├── unit/           # Unit tests
-│       └── integration/    # Integration tests
-├── jest.config.js          # Jest configuration
-└── package.json            # Project dependencies
+week-6-test-debug-assignment-Tsie23/
+  client/
+    src/
+      components/
+      pages/
+      tests/
+        unit/
+        integration/
+    cypress/
+      e2e/
+  server/
+    src/
+      controllers/
+      middleware/
+      models/
+      routes/
+      utils/
+    tests/
+      unit/
+      integration/
+    scripts/
+  jest.config.js
+  README.md
+  Week6-Assignment.md
 ```
 
-## Getting Started
+---
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Follow the setup instructions in the `Week6-Assignment.md` file
-4. Explore the starter code and existing tests
-5. Complete the tasks outlined in the assignment
+## Setup & Installation
+1. **Clone the repository**
+2. **Install dependencies**
+   - In the project root, run:
+     ```sh
+     pnpm install
+     cd week-6-test-debug-assignment-Tsie23/server && pnpm install
+     cd ../client && pnpm install
+     ```
+3. **Set up the test database**
+   - In the `server` directory, run:
+     ```sh
+     pnpm run setup-test-db
+     ```
+4. **Environment Variables**
+   - Ensure MongoDB is running locally or set `MONGO_URI` and `TEST_DB_URI` as needed.
 
-## Files Included
+---
 
-- `Week6-Assignment.md`: Detailed assignment instructions
-- Starter code for a MERN application with basic test setup:
-  - Sample React components with test files
-  - Express routes with test files
-  - Jest and testing library configurations
-  - Example tests for reference
+## Running the App
+- **Server:**
+  ```sh
+  cd week-6-test-debug-assignment-Tsie23/server
+  pnpm run dev
+  ```
+- **Client:**
+  ```sh
+  cd week-6-test-debug-assignment-Tsie23/client
+  pnpm start
+  ```
 
-## Requirements
+---
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or Atlas account)
-- npm or yarn
-- Basic understanding of testing concepts
+## Testing
+### Unit Tests
+- **Client:**
+  ```sh
+  cd client
+  pnpm run test:unit
+  ```
+- **Server:**
+  ```sh
+  cd server
+  pnpm run test:unit
+  ```
 
-## Testing Tools
+### Integration Tests
+- **Client:**
+  ```sh
+  cd client
+  pnpm run test:integration
+  ```
+- **Server:**
+  ```sh
+  cd server
+  pnpm run test:integration
+  ```
 
-- Jest: JavaScript testing framework
-- React Testing Library: Testing utilities for React
-- Supertest: HTTP assertions for API testing
-- Cypress/Playwright: End-to-end testing framework
-- MongoDB Memory Server: In-memory MongoDB for testing
+### End-to-End (E2E) Tests
+- **Client (Cypress):**
+  ```sh
+  cd client
+  pnpm cypress open
+  # or
+  pnpm cypress run
+  ```
+  - E2E tests are in `client/cypress/e2e/`
 
-## Submission
+### Test Coverage
+- **Generate coverage reports:**
+  ```sh
+  # Client
+  cd client
+  pnpm run test:unit
+  # Server
+  cd server
+  pnpm run test:unit
+  ```
+- **Coverage reports** will be in the `coverage/` directory of each package. Open `coverage/lcov-report/index.html` in your browser for a visual report.
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+---
 
-1. Complete all required tests (unit, integration, and end-to-end)
-2. Achieve at least 70% code coverage for unit tests
-3. Document your testing strategy in the README.md
-4. Include screenshots of your test coverage reports
-5. Demonstrate debugging techniques in your code
+## Testing Strategy
+- **Unit Testing:**
+  - Test utility functions, React components, and Express middleware in isolation.
+  - Use mocks for dependencies.
+  - Achieve at least 70% code coverage (enforced by Jest config).
+- **Integration Testing:**
+  - Test API endpoints with Supertest and an in-memory MongoDB.
+  - Test React components that interact with APIs.
+  - Validate authentication, form submissions, and data validation.
+- **End-to-End Testing:**
+  - Use Cypress to test user flows (registration, navigation, error handling).
+  - Simulate real user interactions and check UI responses.
+- **Continuous Integration:**
+  - Scripts are provided for running all test types.
+
+---
+
+## Debugging Techniques
+- **Server-side Logging:**
+  - Custom logger middleware logs requests.
+  - Performance logger middleware logs request durations.
+- **Global Error Handling:**
+  - Express global error handler catches and responds to errors.
+- **Client-side Error Boundaries:**
+  - React ErrorBoundary component catches UI errors and displays fallback UI.
+- **Browser Dev Tools:**
+  - Use Chrome/Firefox DevTools for inspecting React components and network requests.
+- **Performance Monitoring:**
+  - Request durations are logged in the server console.
+
+---
+
+## Screenshots of Coverage
+1. Run the unit tests with coverage enabled (see above).
+2. Open the generated HTML report in your browser.
+3. Take a screenshot of the summary page.
+4. Save the screenshot in the root of your repo as `coverage-screenshot.png` (or similar).
+5. Reference the screenshot in your submission.
+
+---
 
 ## Resources
-
 - [Jest Documentation](https://jestjs.io/docs/getting-started)
-- [React Testing Library Documentation](https://testing-library.com/docs/react-testing-library/intro/)
-- [Supertest Documentation](https://github.com/visionmedia/supertest)
-- [Cypress Documentation](https://docs.cypress.io/)
-- [MongoDB Testing Best Practices](https://www.mongodb.com/blog/post/mongodb-testing-best-practices) 
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- [Supertest](https://github.com/visionmedia/supertest)
+- [Cypress](https://docs.cypress.io/)
+- [MongoDB Memory Server](https://github.com/nodkz/mongodb-memory-server)
+- [Express Error Handling](https://expressjs.com/en/guide/error-handling.html)
+
+---
+
+## Notes
+- Commit and push your code regularly.
+- Ensure all tests pass before submission.
+- Achieve at least 70% code coverage for unit tests.
+- Document any additional debugging or testing strategies you implement. 

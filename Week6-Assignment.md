@@ -1,4 +1,4 @@
-# 🧪 Week 6: Testing and Debugging – Ensuring MERN App Reliability
+\# 🧪 Week 6: Testing and Debugging – Ensuring MERN App Reliability
 
 ## 🚀 Objective
 Implement comprehensive testing strategies for a MERN stack application, including unit testing, integration testing, and end-to-end testing, while also learning debugging techniques to identify and fix common issues.
