@@ -23,6 +23,7 @@ beforeAll(async () => {
 
   // Create a test user
   const user = await User.create({
+    name: 'Test User',
     username: 'testuser',
     email: 'test@example.com',
     password: 'password123',
@@ -35,7 +36,7 @@ beforeAll(async () => {
     title: 'Test Post',
     content: 'This is a test post content',
     author: userId,
-    category: mongoose.Types.ObjectId(),
+    category: new mongoose.Types.ObjectId(),
     slug: 'test-post',
   });
   postId = post._id;
@@ -66,7 +67,7 @@ describe('POST /api/posts', () => {
     const newPost = {
       title: 'New Test Post',
       content: 'This is a new test post content',
-      category: mongoose.Types.ObjectId().toString(),
+      category: new mongoose.Types.ObjectId().toString(),
     };
 
     const res = await request(app)
@@ -85,7 +86,7 @@ describe('POST /api/posts', () => {
     const newPost = {
       title: 'Unauthorized Post',
       content: 'This should not be created',
-      category: mongoose.Types.ObjectId().toString(),
+      category: new mongoose.Types.ObjectId().toString(),
     };
 
     const res = await request(app)
@@ -99,7 +100,7 @@ describe('POST /api/posts', () => {
     const invalidPost = {
       // Missing title
       content: 'This post is missing a title',
-      category: mongoose.Types.ObjectId().toString(),
+      category: new mongoose.Types.ObjectId().toString(),
     };
 
     const res = await request(app)
@@ -122,7 +123,7 @@ describe('GET /api/posts', () => {
   });
 
   it('should filter posts by category', async () => {
-    const categoryId = mongoose.Types.ObjectId().toString();
+    const categoryId = new mongoose.Types.ObjectId().toString();
     
     // Create a post with specific category
     await Post.create({
@@ -150,7 +151,7 @@ describe('GET /api/posts', () => {
         title: `Pagination Post ${i}`,
         content: `Content for pagination test ${i}`,
         author: userId,
-        category: mongoose.Types.ObjectId(),
+        category: new mongoose.Types.ObjectId(),
         slug: `pagination-post-${i}`,
       });
     }
@@ -181,7 +182,7 @@ describe('GET /api/posts/:id', () => {
   });
 
   it('should return 404 for non-existent post', async () => {
-    const nonExistentId = mongoose.Types.ObjectId();
+    const nonExistentId = new mongoose.Types.ObjectId();
     const res = await request(app)
       .get(`/api/posts/${nonExistentId}`);
 
@@ -219,23 +220,22 @@ describe('PUT /api/posts/:id', () => {
   });
 
   it('should return 403 if not the author', async () => {
-    // Create another user
-    const anotherUser = await User.create({
-      username: 'anotheruser',
-      email: 'another@example.com',
+    // Create another user with a name
+    const otherUser = await User.create({
+      name: 'Other User',
+      username: 'otheruser',
+      email: 'other@example.com',
       password: 'password123',
     });
-    const anotherToken = generateToken(anotherUser);
-
+    const otherToken = generateToken(otherUser);
     const updates = {
-      title: 'Forbidden Update',
+      title: 'Should Not Update',
+      content: 'Should Not Update',
     };
-
     const res = await request(app)
       .put(`/api/posts/${postId}`)
-      .set('Authorization', `Bearer ${anotherToken}`)
+      .set('Authorization', `Bearer ${otherToken}`)
       .send(updates);
-
     expect(res.status).toBe(403);
   });
 });
