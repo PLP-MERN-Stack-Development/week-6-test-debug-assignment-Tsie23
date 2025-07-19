@@ -4,7 +4,7 @@ import Button from '../components/Button';
 const Home = () => (
   <div>
     <h1>Home Page</h1>
-    <Button label="Click Me" />
+    <Button>Click Me</Button>
   </div>
 );
 

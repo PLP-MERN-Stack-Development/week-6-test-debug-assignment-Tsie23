@@ -1,4 +1,4 @@
-const validateInput = require('../../utils/validateInput');
+const validateInput = require('../../src/utils/validateInput');
 
 test('validates correct name input', () => {
   expect(validateInput('John')).toBe(true);
